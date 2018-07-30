@@ -4,13 +4,11 @@ namespace App;
 
 trait RecordsActivity
 {
-    protected static function boot()
+    protected static function bootRecordActivity()
     {
-        parent::boot();
-
         foreach (static::getModelEvents() as $event) {
             static::$event(function (self $model) use ($event) {
-                $model->addActivity($event);
+                $model->recordActivity($event);
             });
         }
     }
@@ -31,7 +29,7 @@ trait RecordsActivity
      * @param $event
      * @throws \ReflectionException
      */
-    protected function addActivity($event)
+    public function recordActivity($event)
     {
         Activity::create([
             'subject_id' => $this->id,
